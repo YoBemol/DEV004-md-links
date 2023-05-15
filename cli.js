@@ -1,6 +1,6 @@
 import { mdLinks } from "./index.js";
 
-mdLinks('rutanoexiste.md').then(() => {})
+mdLinks().then(() => {})
 .catch((error) => {
     console.log(error)
 });
