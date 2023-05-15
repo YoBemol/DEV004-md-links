@@ -1,29 +1,36 @@
 import fs from 'node:fs';
-import { isAbsolute } from 'node:path';
+import { isAbsolute, resolve as resolvePath, } from 'node:path';
+import { convertAbsolute, existPath, existFile, extFile, readFileMd } from './mdlinks.js';
+// isAbsolute(jhfdsakjfj)
+// import path from 'node:path';
+// path.isAbsolute(fdskjhfdkjh)
 
-export const mdLinks = (path, options) => {
+export const mdLinks = (path = 'ejemplo.md', options) => { // noexiste.md || README.md || /Users/InforSys/Documents/Laboratoria/ || package.json
   return new Promise((resolve, reject) => {
     // si la ruta existe
-  if (fs.existsSync(path)) {
-    // pasar a ruta absoluta
+    //if (fs.existsSync(path)) {
+    if(existPath(path)){  
+      
+      convertAbsolute(path);
+      
+      existFile(path);
 
-    const isPathAbsolute = isAbsolute('README.md');
-    if(isPathAbsolute === true){
-      console.log('Ruta absoluta');
-    }else{
-      //convertir en absoluta
-        console.log(resolve('README.md'), 'README.md')
+      // extFile(path);
+
+      if(extFile(path) == '.md'){
+        const content = readFileMd(path)
+        .then(buff => {
+          const contents = buff.toString()
+          console.log(`\nContenido del archivo :\n${contents}`)  
+        })
       }
-    
-  }  else{
-    //si no existe la ruta msj error
-    reject('la ruta no existe')
-  }
+    } else {
+      // si no existe la ruta msj error
+      reject('--- La ruta no existe ❎---')
+    }
   });
 };
-/*module.exports = () => {
-  // ...
-};*/
+
 
 /*import { mdLinks } from "./mdLinks.js";
 
