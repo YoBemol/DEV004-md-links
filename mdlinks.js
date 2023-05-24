@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { existsSync, statSync, readFile } from 'fs';
+import { existsSync, statSync, readFile, link } from 'fs';
 import { isAbsolute, resolve as resolvePath, extname } from 'node:path';
 
 // import { util } from 'util';
@@ -12,7 +12,7 @@ import { isAbsolute, resolve as resolvePath, extname } from 'node:path';
 export const existPath = (value) => {
     const valueT = existsSync(value)
     if (valueT) {
-        console.log('La ruta existe: ', value);
+        // console.log('La ruta existe: ', value);
     }
     return valueT;
 };
@@ -21,11 +21,11 @@ export const existPath = (value) => {
 export const convertAbsolute = (value) => {
     const isPathAbsolute = isAbsolute(value);
     if (isPathAbsolute) {
-        console.log('La ruta es absoluta: ', value)
+        // console.log('La ruta es absoluta: ', value)
     } else {
         //si no es relativa convertir en absoluta
         value = resolvePath(value);
-        console.log('La ruta ahora es absoluta: ', value)//path.resolve
+        // console.log('La ruta ahora es absoluta: ', value)//path.resolve
     }
     return value;
 };
@@ -38,9 +38,9 @@ export const existFile = (value) => {
     // console.log('Es un archivo? ', stats.isFile());
 
     if (stats.isFile()) {
-        console.log('Es un archivo ☑');
+        // console.log('Es un archivo ✅');
     } else {
-        console.log('---No es un archivo ❎---');
+        console.error('---No es un archivo ❎---');
     }
     return stats.isFile();
 };
@@ -48,9 +48,9 @@ export const existFile = (value) => {
 //verificar si es un archivo ext .md sincrona
 export const extFile = (value) => {
     if (extname(value) == '.md') {
-        console.log('Archivo con extension', extname(value), '☑')
+        // console.log('Archivo con extension', extname(value), '✅')
     } else {
-        console.log('Archivo con extension', extname(value), '❎ Ingrese archivo con ext .md');
+        console.error('❎ Archivo con extension', extname(value), 'Ingrese archivo con ext .md');
     }
     return extname(value);
 };
@@ -91,29 +91,27 @@ export const getLinks = (value) => {
 export const validateLinks = (array)=>{
     // dentro de la funcion recorrer el array
     // por cada href dentro del array hacer la peticion http axios, fetch, node:http
-    // const requestAxios = array.map(element => axios.get(element.href))
-    // Promise.all(requestAxios)
-    // .then((res)=>{res.forEach((req) => {
-    //    console.log(req)
-    // })       
-    // })
-    // .catch((err)=>{
-    //     console.log(err);
-    // })
-    array.forEach(element => {
-        axios.get(element.href)
-        .then((response)=>{
-            const elements = {
-                status: response.status,
-                msj: response.statusText
-            }
-            console.log(elements);
-        });
+    // deacuerdo a la respuesta añadir 2 propiedades al objeto {href, file, text, status: 500, statusText: 'OK/Fail'}
+    //console.log('array', array);
+    const requestAxios = array.map(element => {
+        return axios.head(element.href)//get
+        .then(response => {
+            element.status = response.status;
+            // console.log(element.status);
+            element.msg = 'OK';
+            // console.log('element', element);
+            return element
+        })
+        .catch(error => {
+            element.status = error;// solucionar undefined
+            element.msg = 'FAIL';
+            return element
+        })
+        
     });
-    return array    
-    
-           
-            // deacuerdo a la respuesta añadir 2 propiedades al objeto {href, file, text, status: 500, statusText: 'OK/Fail'}
-            
+    return Promise.all(requestAxios)
+		.then(result => {
+			return result;
+		});             
 }
 //peticion http con axios (inst) o con fetch 

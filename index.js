@@ -5,7 +5,7 @@ import { convertAbsolute, existPath, existFile, extFile, readFileMd, getLinks, v
 // import path from 'node:path';
 // path.isAbsolute(fdskjhfdkjh)
 
-export const mdLinks = (ruta , options= {validate: false}) => { 
+export const mdLinks = (ruta , options) => { 
   return new Promise((resolve, reject) => {
     // si la ruta existe
     //if (fs.existsSync(ruta)) {
@@ -18,24 +18,26 @@ export const mdLinks = (ruta , options= {validate: false}) => {
       // extFile(ruta);
 
       if(extFile(ruta) == '.md'){
-        const content = readFileMd(ruta)
+        readFileMd(ruta)
         .then(buff => {
           //const contents = buff.toString()
           //console.log(`\nContenido del archivo :\n${contents}`) 
-          const arrayBasic = getLinks(buff)
-          // console.log(getLinks(buff)) // array de objeto tres propiedades
+          return getLinks(buff)
+        })
+        .then((arrayBasic) => {
+          // console.log({arrayBasic});
           if(options.validate === false){
             resolve(arrayBasic)
           }
+          return validateLinks(arrayBasic)
+        })
+        .then((resultado) => {
+         // console.log({resultado});
           if(options.validate === true){
-            // crear una funcion que reciba el arrayBasic
-            // dentro de la funcion recorrer el arrayBasic
-            // por cada href dentro del arrayBasic hacer la peticion http axios, fetch, node:http
-            // deacuerdo a la respuesta añadir 2 propiedades al objeto {href, file, text, status: 500, statusText: 'OK/Fail'}
-            const prueba = validateLinks(arrayBasic)
-            resolve (prueba) // array de obj 5 props
+            resolve(resultado)
           }
-          
+          // resolve(arrayBasic)
+
         })
       }
     } else {
