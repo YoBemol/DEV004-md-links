@@ -82,7 +82,7 @@ export const getLinks = (value) => {
     
     for (const match of matches) {
       // const route = argument;// argv[2]
-      data.push({text:match[1], href: match[2], file: process.argv[2]});// process.argv no funciona para dir solo archivos
+      data.push({text:match[1], href: match[2], file: process.argv[2]});// file: process.argv[2] no funciona para dir solo archivos
     }
     return data;
 }
@@ -94,16 +94,15 @@ export const validateLinks = (array)=>{
     // deacuerdo a la respuesta añadir 2 propiedades al objeto {href, file, text, status: 500, statusText: 'OK/Fail'}
     //console.log('array', array);
     const requestAxios = array.map(element => {
-        return axios.head(element.href)//get
+        //get
+        return axios.get(element.href)
         .then(response => {
             element.status = response.status;
-            // console.log(element.status);
             element.msg = 'OK';
-            // console.log('element', element);
             return element
-        })
+        })        
         .catch(error => {
-            element.status = error;// solucionar undefined
+            element.status = error.response.status;// solucionar undefined para urls con proxyes
             element.msg = 'FAIL';
             return element
         })
@@ -114,4 +113,11 @@ export const validateLinks = (array)=>{
 			return result;
 		});             
 }
-//peticion http con axios (inst) o con fetch 
+
+// export const linkStats = (value) => {
+//     let cont = 0;
+//     for(const h of value.href){
+//         cont++
+//     }
+//     return cont;
+// }
