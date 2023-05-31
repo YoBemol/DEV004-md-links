@@ -1,9 +1,7 @@
 import { mdLinks } from "./index.js";
 
-// const [, , argument] = process.argv;
-// console.log(argument);
 const ruta = process.argv[2];
-const processArr = process.argv;
+const processArr = process.argv; // node0 cli.js1 ejemplo.md2 validate3
 if(processArr[3] === '--v' || processArr[3] === '--validate' ){
     // console.log(true);
         mdLinks(ruta, {validate:true})
@@ -15,6 +13,28 @@ if(processArr[3] === '--v' || processArr[3] === '--validate' ){
     });
 }
 
+if(processArr[3] === '--s' || processArr[3] === '--stats' ){
+    // console.log(true);
+        mdLinks(ruta, {stats:true})
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((error) => {
+        console.log(error)
+    });
+}
+
+if(processArr[3] === '--stats' && processArr[4] === '--validate' ){
+    // console.log(true);
+        mdLinks(ruta, {combo:true})
+    .then((data) => {
+        
+        console.log(data);
+    })
+    .catch((error) => {
+        console.log(error)
+    });
+}
 if(processArr.length === 3){
     // console.log('no validate');
         mdLinks(ruta, {validate:false})

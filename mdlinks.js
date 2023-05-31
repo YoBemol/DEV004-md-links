@@ -2,12 +2,6 @@ import axios from 'axios';
 import { existsSync, statSync, readFile, link } from 'fs';
 import { isAbsolute, resolve as resolvePath, extname } from 'node:path';
 
-// import { util } from 'util';
-/*export const mdLinks = (path, options) => {
-
-};*/
-
-
 //entrega un booleano que indica la presencia de un archivo. sincrona
 export const existPath = (value) => {
     const valueT = existsSync(value)
@@ -59,7 +53,7 @@ export const extFile = (value) => {
 //leer archivo.promesa REVISAR COMO PASAR A INDEX.JS Y PARAMETROS, ES CB? ES PROMISE? IMPLEMENTAR LO DE ABAJO
 //https://www.geeksforgeeks.org/how-to-operate-callback-based-fs-readfile-method-with-promises-in-node-js/
 export const readFileMd = (value) => {
-    return new Promise ((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         readFile(value, 'utf-8', (err, data) => {
             if (err) {
                 reject('error: ', err);
@@ -68,27 +62,28 @@ export const readFileMd = (value) => {
             }
         });
     })
-   
+
 };
 // console.log(process.argv);
 // const [, , argument] = process.argv;
 // console.log(argument);
+
 // extraer links como array
 export const getLinks = (value) => {
     const regex = /\[([^\]]+)]\((https?:\/\/[^\s)]+)\)/gi;
     const content = value.toString();
     const matches = content.matchAll(regex);
     const data = [];
-    
+
     for (const match of matches) {
-      // const route = argument;// argv[2]
-      data.push({text:match[1], href: match[2], file: process.argv[2]});// file: process.argv[2] no funciona para dir solo archivos
+        // const route = argument;// argv[2]
+        data.push({ text: match[1], href: match[2], file: process.argv[2] });// file: process.argv[2] no funciona para dir solo archivos
     }
     return data;
 }
 
 //peticion http promesa
-export const validateLinks = (array)=>{
+export const validateLinks = (array) => {
     // dentro de la funcion recorrer el array
     // por cada href dentro del array hacer la peticion http axios, fetch, node:http
     // deacuerdo a la respuesta añadir 2 propiedades al objeto {href, file, text, status: 500, statusText: 'OK/Fail'}
@@ -96,28 +91,38 @@ export const validateLinks = (array)=>{
     const requestAxios = array.map(element => {
         //get
         return axios.get(element.href)
-        .then(response => {
-            element.status = response.status;
-            element.msg = 'OK';
-            return element
-        })        
-        .catch(error => {
-            element.status = error.response.status;// solucionar undefined para urls con proxyes
-            element.msg = 'FAIL';
-            return element
-        })
-        
+            .then(response => {
+                element.status = response.status;
+                element.msg = 'OK';
+                return element
+            })
+            .catch(error => {
+                element.status = error.response.status;// solucionar undefined para urls con proxyes
+                element.msg = 'FAIL';
+                return element
+            })
+
     });
     return Promise.all(requestAxios)
-		.then(result => {
-			return result;
-		});             
+        .then(result => {
+            return result;
+        });
 }
 
-// export const linkStats = (value) => {
-//     let cont = 0;
-//     for(const h of value.href){
-//         cont++
-//     }
-//     return cont;
+export const linkTotal = (value) => {    
+    const data = [];
+
+    const countLinks = value.map(element => data.push(element.href)) 
+    const uniqueLinks = Array.from(new Set(value.map(e => e.href)))
+    
+    console.log('Total: ', countLinks.length)
+    console.log('Unique: ', uniqueLinks.length)
+}
+
+//replantear no encuentra las pet axios 
+// export const linkCombo = (value) => {
+//     const data = [];
+//     const brokenLinks = value.map(e => e.href.status.msg !== 'OK' ? data.push(e.href) : 0)
+
+//     console.log('Broken: ', brokenLinks.length)
 // }
