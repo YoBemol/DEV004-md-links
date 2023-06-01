@@ -1,5 +1,5 @@
-import fs, { link } from 'node:fs';
-import { isAbsolute, resolve as resolvePath, } from 'node:path';
+// import fs, { link } from 'node:fs';
+// import { isAbsolute, resolve as resolvePath, } from 'node:path';
 import { convertAbsolute, existPath, existFile, extFile, readFileMd, getLinks, validateLinks, linkTotal, linkCombo } from './mdlinks.js';
 // isAbsolute(jhfdsakjfj)
 // import path from 'node:path';
@@ -49,18 +49,7 @@ export const mdLinks = (ruta, options) => {
             if (options.combo === true) {
               return linkCombo(resultado)
             }
-          })
-
-        // si la opcion es --stats
-        // .then(buff => {
-        //   if (options.stats === true) {
-        //     return linkTotal(buff)
-        //   }
-        // // si la opcion es --stats --validate  
-        //   if (options.combo === true) {
-        //     return linkCombo(buff)
-        //   }
-        // })
+          })      
 
       }
     } else {

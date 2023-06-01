@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { createDiffieHellmanGroup } from 'crypto';
 import { existsSync, statSync, readFile, link } from 'fs';
 import { isAbsolute, resolve as resolvePath, extname } from 'node:path';
 
@@ -77,7 +78,7 @@ export const getLinks = (value) => {
 
     for (const match of matches) {
         // const route = argument;// argv[2]
-        data.push({ text: match[1], href: match[2], file: process.argv[2] });// file: process.argv[2] no funciona para dir solo archivos
+        data.push({ text: match[1], href: match[2], file: convertAbsolute(process.argv[2]) });// file: process.argv[2] no funciona para dir solo archivos
     }
     return data;
 }
@@ -109,20 +110,24 @@ export const validateLinks = (array) => {
         });
 }
 
-export const linkTotal = (value) => {    
-    const data = [];
-
-    const countLinks = value.map(element => data.push(element.href)) 
+export const linkTotal = (value) => {
+    const count = [];
+    //console.log(count);
+    const countLinks = value.map(element => count.push(element.href))
+    //count.push(countLinks);
     const uniqueLinks = Array.from(new Set(value.map(e => e.href)))
-    
+    // console.log(count);
     console.log('Total: ', countLinks.length)
     console.log('Unique: ', uniqueLinks.length)
 }
 
 //replantear no encuentra las pet axios 
-// export const linkCombo = (value) => {
-//     const data = [];
-//     const brokenLinks = value.map(e => e.href.status.msg !== 'OK' ? data.push(e.href) : 0)
+export const linkCombo = (value) => {
+    // console.log({value});
 
-//     console.log('Broken: ', brokenLinks.length)
-// }
+    // const brokenLinks = value.filter(e => e.status >= 400)//.map(e => e.status);    
+    // console.log(brokenLinks.length);
+    // return brokenLinks.length
+    const brokenLinks = value.filter(e => e.status >= 400).length
+    console.log('Broken: ', brokenLinks)
+}
