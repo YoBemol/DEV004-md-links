@@ -1,12 +1,20 @@
 import { mdLinks } from "./index.js";
 
 const ruta = process.argv[2];
-const processArr = process.argv; // node0 cli.js1 ejemplo.md2 validate3
+const processArr = process.argv; 
 if(processArr[3] === '--v' || processArr[3] === '--validate' ){
     // console.log(true);
         mdLinks(ruta, {validate:true})
     .then((data) => {
-        console.log(data);
+        // console.log(data);
+        data.forEach(element => {
+            console.log('');
+            console.log('Text:  ', element.text);
+            console.log('Href:  ', element.href);
+            console.log('File:  ', element.file);
+            console.log('Status:', element.status);
+            console.log('Msg:   ', element.msg);             
+        });
     })
     .catch((error) => {
         console.log(error)
@@ -27,22 +35,28 @@ if(processArr[3] === '--s' || processArr[3] === '--stats' ){
 if(processArr[3] === '--stats' && processArr[4] === '--validate' ){
     // console.log(true);
         mdLinks(ruta, {combo:true})
-    .then((data) => {
-        
-        console.log(data);
+    .then((data) => {        
+         console.log(data);
+        // data.forEach(element => {
+        //     console.log('Broken: ', element);
+        // });
     })
     .catch((error) => {
         console.log(error)
     });
 }
+
 if(processArr.length === 3){
     // console.log('no validate');
         mdLinks(ruta, {validate:false})
     .then((data) => {
-        console.log(data);
-        // data.forEach(element => {
-        //     console.log(element.text);
-        // });
+        // console.log(data);
+        data.forEach(element => {
+            console.log('');
+            console.log('Text: ', element.text);
+            console.log('Href: ', element.href);
+            console.log('File: ', element.file);             
+        });
     })
     .catch((error) => {
         console.log(error)

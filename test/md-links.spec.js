@@ -98,7 +98,7 @@ const prueba = '### HTTP - [ ] **Consulta o petición (request) y respuesta (res
         {
           text: 'Generalidades del protocolo HTTP - MDN',
           href: 'https://developer.mozilla.org/es/docs/Web/HTTP/Overview',
-          file: 'ejemplo.md'
+          file: 'C:\\Users\\InforSys\\Documents\\Laboratoria\\DEV004-md-links\\ejemplo.md'
         }
       ])
     });
