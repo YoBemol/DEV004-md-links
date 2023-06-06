@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createDiffieHellmanGroup } from 'crypto';
 import { existsSync, statSync, readFile, link } from 'fs';
-import { isAbsolute, resolve as resolvePath, extname } from 'node:path';
+import { isAbsolute, resolve, extname } from 'node:path';
 
 //entrega un booleano que indica la presencia de un archivo. sincrona
 export const existPath = (value) => {
@@ -15,15 +15,22 @@ export const existPath = (value) => {
 // convierte path de relativa a absoluta. sincrona
 export const convertAbsolute = (value) => {
     const isPathAbsolute = isAbsolute(value);
+    // console.log('UNO',isPathAbsolute)
     if (isPathAbsolute) {
-        // console.log('La ruta es absoluta: ', value)
+        //console.log('La ruta es absoluta: ', value)
     } else {
-        //si no es relativa convertir en absoluta
-        value = resolvePath(value);
+        //si es relativa convertir en absoluta
+        //?? If the value to the left is undefined, an empty string is returned.
+        value = resolve(value);
+        
         // console.log('La ruta ahora es absoluta: ', value)//path.resolve
     }
+    // console.log('DOS',value)
     return value;
 };
+// export const convertAbsolute = (value) => {isAbsolute(value)};
+
+// export const toAbsolute = (value) => {resolve(value ?? '')};
 
 //verificar que la ruta es de un archivo. sincrona
 export const existFile = (value) => {
@@ -34,9 +41,10 @@ export const existFile = (value) => {
 
     if (stats.isFile()) {
         // console.log('Es un archivo ✅');
-    } else {
-        console.error('---No es un archivo ❎---');
-    }
+    } 
+    // else {
+    //     console.error('---No es un archivo ❎---');
+    // }
     return stats.isFile();
 };
 
@@ -44,9 +52,10 @@ export const existFile = (value) => {
 export const extFile = (value) => {
     if (extname(value) == '.md') {
         // console.log('Archivo con extension', extname(value), '✅')
-    } else {
-        console.error('❎ Archivo con extension', extname(value), 'Ingrese archivo con ext .md');
-    }
+    } 
+    // else {
+    //     console.error('❎ Archivo con extension', extname(value), 'Ingrese archivo con ext .md');
+    // }
     return extname(value);
 };
 
@@ -54,12 +63,12 @@ export const extFile = (value) => {
 //leer archivo.promesa REVISAR COMO PASAR A INDEX.JS Y PARAMETROS, ES CB? ES PROMISE? IMPLEMENTAR LO DE ABAJO
 //https://www.geeksforgeeks.org/how-to-operate-callback-based-fs-readfile-method-with-promises-in-node-js/
 export const readFileMd = (value) => {
-    return new Promise((resolve, reject) => {
-        readFile(value, 'utf-8', (err, data) => {
+    return new Promise((res, reject) => {
+        readFile(value, 'UTF-8', (err, data) => {
             if (err) {
                 reject('error: ', err);
             } else {
-                resolve(data);
+                res(data);
             }
         });
     })
@@ -98,7 +107,7 @@ export const validateLinks = (array) => {
                 return element
             })
             .catch(error => {
-                element.status = error.response.status;// solucionar undefined para urls con proxyes
+                element.status = error.message;
                 element.msg = 'FAIL';
                 return element
             })
@@ -110,24 +119,25 @@ export const validateLinks = (array) => {
         });
 }
 
+// funcion links totales y unicos
 export const linkTotal = (value) => {
-    const count = [];
-    //console.log(count);
-    const countLinks = value.map(element => count.push(element.href))
-    //count.push(countLinks);
-    const uniqueLinks = Array.from(new Set(value.map(e => e.href)))
-    // console.log(count);
-    console.log('Total: ', countLinks.length)
-    console.log('Unique: ', uniqueLinks.length)
-}
-
-//replantear no encuentra las pet axios 
-export const linkCombo = (value) => {
     // console.log({value});
 
-    // const brokenLinks = value.filter(e => e.status >= 400)//.map(e => e.status);    
-    // console.log(brokenLinks.length);
-    // return brokenLinks.length
-    const brokenLinks = value.filter(e => e.status >= 400).length
-    console.log('Broken: ', brokenLinks)
+    const countLinks = value.map(element => element.href).length
+    const uniqueLinks = Array.from(new Set(value.map(e => e.href))).length
+
+    value.total = countLinks;
+    value.unique = uniqueLinks;
+    //console.log('HOLA',value.total,value.unique)
+    return value    
+}
+
+//funcion links rotos 
+export const linkCombo = (value) => {    
+    // console.log({value});
+
+    const brokenLinks = value.filter(e => e.msg == 'FAIL').length
+    value.broken = brokenLinks;
+    return value
+
 }

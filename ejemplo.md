@@ -15,3 +15,4 @@
 
 
 * [Link roto](https://www.youtube.com/01RHn23Bn_0)
+* [Módulos, librerías, paquetes, frameworks... ¿cuál es la diferencia?](http://community.laboratoria.la/t/modulos-librerias-paquetes-frameworks-cual-es-la-diferencia/175)
