@@ -19,24 +19,16 @@ export const convertAbsolute = (value) => {
     // console.log('La ruta es absoluta: ', value)
   } else {
     // si es relativa convertir en absoluta
-    // ?? If the value to the left is undefined, an empty string is returned.
     value = resolve(value)
-
     // console.log('La ruta ahora es absoluta: ', value)//path.resolve
   }
   // console.log('DOS',value)
   return value
 }
-// export const convertAbsolute = (value) => {isAbsolute(value)};
 
-// export const toAbsolute = (value) => {resolve(value ?? '')};
-
-// verificar que la ruta es de un archivo. sincrona
+// verificar que la ruta es de un archivo. dos metodos sincrona
 export const existFile = (value) => {
   const stats = statSync(value)
-
-  // Use isFile() method to log the result to screen
-  // console.log('Es un archivo? ', stats.isFile());
 
   if (stats.isFile()) {
     // console.log('Es un archivo ✅');
@@ -59,8 +51,8 @@ export const extFile = (value) => {
 }
 
 // const regExp = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)[^\)]*\)/gm;
-// leer archivo.promesa REVISAR COMO PASAR A INDEX.JS Y PARAMETROS, ES CB? ES PROMISE? IMPLEMENTAR LO DE ABAJO
-// https://www.geeksforgeeks.org/how-to-operate-callback-based-fs-readfile-method-with-promises-in-node-js/
+// leer archivo
+
 export const readFileMd = (value) => {
   return new Promise((resolve, reject) => {
     readFile(value, 'UTF-8', (err, data) => {
@@ -72,9 +64,6 @@ export const readFileMd = (value) => {
     })
   })
 }
-// console.log(process.argv);
-// const [, , argument] = process.argv;
-// console.log(argument);
 
 // extraer links como array
 export const getLinks = (value) => {
@@ -84,7 +73,6 @@ export const getLinks = (value) => {
   const data = []
 
   for (const match of matches) {
-    // const route = argument;// argv[2]
     data.push({ text: match[1], href: match[2], file: convertAbsolute(process.argv[2]) })// file: process.argv[2] no funciona para dir solo archivos
   }
   return data
