@@ -1,31 +1,22 @@
 // import fs, { link } from 'node:fs';
 // import { isAbsolute, resolve as resolvePath, } from 'node:path';
-import { existPath, convertAbsolute, existFile, extFile, readFileMd, getLinks, validateLinks, linkTotal, linkCombo } from './mdlinks.js';
+import { existPath, convertAbsolute, existFile, extFile, readFileMd, getLinks, validateLinks, linkTotal, linkCombo } from './mdlinks.js'
 // isAbsolute(jhfdsakjfj)
 // import path from 'node:path';
 // path.isAbsolute(fdskjhfdkjh)
 
 export const mdLinks = (ruta, options) => {
   return new Promise((resolve, reject) => {
-
     // si la ruta existe
     if (existPath(ruta)) {
-
       // convertir en absoluta
-      convertAbsolute(ruta);
-
-      // if(convertAbsolute(ruta)===false){
-      //   toAbsolute(ruta);
-      // }else{
-      //   ruta
-      // }
+      convertAbsolute(ruta)
 
       // verificar si existe el archivo
-      existFile(ruta);
+      existFile(ruta)
 
       // si es archivo ext .md
-      if (extFile(ruta) == '.md') {
-
+      if (extFile(ruta) === '.md') {
         // leer el archivo
         readFileMd(ruta)
 
@@ -53,28 +44,23 @@ export const mdLinks = (ruta, options) => {
               resolve(resultado)
               //  return linkTotal(resultado)
               return linkTotal(resultado)
-              //console.log(linkTotal(resultado)); 
+              // console.log(linkTotal(resultado));
             }
             if (options.combo === true) {
               resolve(resultado)
               //  return linkCombo(resultado)
               return linkCombo(resultado)
             }
-
-
           })
-
       }
     } else {
       // si no existe la ruta msj error
       reject('*-- <PATH> Invalid ❎--*')
     }
-  });
+  })
+}
 
-};
-
-
-/*import { mdLinks } from "./mdLinks.js";
+/* import { mdLinks } from "./mdLinks.js";
 
 mdLinks()
 */
