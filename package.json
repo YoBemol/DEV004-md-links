@@ -2,8 +2,12 @@
   "name": "md-links",
   "type": "module",
   "version": "0.1.0",
+  "main": "/index.js",
   "engines": {
     "node": ">=16.x"
+  },
+  "bin": {
+    "md-links": "./cli.js"
   },
   "bootcamp": {
     "createdAt": "2023-03-02T14:34:23.772Z",
