@@ -27,8 +27,6 @@ Se creo una herramienta usando [Node.js](https://nodejs.org/), que lea y analice
 en formato `Markdown`, para verificar los links que contengan y reportar algunas estadísticas como total de links, links únicos y links rotos. Por ejemplo para detectar los links rotos en los readmes de los proyectos
 o en un área de facturación verificar los links rotos de una factura digital.
 
-![md-links](https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg)
-
 ## 3. Justificación
 
 La implementación de este proyecto tiene varias partes: leer del sistema de
@@ -83,11 +81,11 @@ de la función para leer archivos, `readFileSync`.
 
 ### Diagrama de flujo
 
-
+![diagrama](https://github.com/YoBemol/DEV004-md-links/blob/main/diagrama.png)
 
 ### CLI (Command Line Interface - Interfaz de Línea de Comando)
 
-El ejecutable de nuestra aplicación debe poder ejecutarse de la siguiente
+Se ejecuta de la siguiente
 manera a través de la **terminal**:
 
 `md-links <path-to-file> [options]`
