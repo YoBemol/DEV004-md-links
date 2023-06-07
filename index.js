@@ -1,9 +1,4 @@
-// import fs, { link } from 'node:fs';
-// import { isAbsolute, resolve as resolvePath, } from 'node:path';
 import { existPath, convertAbsolute, existFile, extFile, readFileMd, getLinks, validateLinks, linkTotal, linkCombo } from './mdlinks.js'
-// isAbsolute(jhfdsakjfj)
-// import path from 'node:path';
-// path.isAbsolute(fdskjhfdkjh)
 
 export const mdLinks = (ruta, options) => {
   return new Promise((resolve, reject) => {
@@ -59,8 +54,3 @@ export const mdLinks = (ruta, options) => {
     }
   })
 }
-
-/* import { mdLinks } from "./mdLinks.js";
-
-mdLinks()
-*/

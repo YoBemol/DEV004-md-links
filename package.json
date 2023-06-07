@@ -1,9 +1,21 @@
 {
-  "name": "md-links",
+  "name": "@yobemol/md-links",
   "type": "module",
   "version": "0.1.0",
+  "description": "tool read and analyze files in Markdown format, to verify the links they contain and report some statistics",
+  "license": "MIT",
+  "author": "Belen Molina",
+  "homepage": "https://github.com/YoBemol/DEV004-md-links",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YoBemol/DEV004-md-links"
+  },
+  "main": "/index.js",
   "engines": {
     "node": ">=16.x"
+  },
+  "bin": {
+    "md-links": "./cli.js"
   },
   "bootcamp": {
     "createdAt": "2023-03-02T14:34:23.772Z",
