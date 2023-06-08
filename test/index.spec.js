@@ -108,32 +108,28 @@ describe('validateLinks', () => {
     axios.get.mockResolvedValue({ status: 200, msg: 'OK' })
     return expect(validateLinks(petAxios)).resolves.toEqual(result)
   })
-  // // NO FUNCA Y NO REPRESENTA VALORES % TEST
-  // it('Cuando la petición falla deberia adicionar al array el status y msg FAIL', () => {
+  // NO FUNCA Y NO REPRESENTA VALORES % TEST
+  it('Cuando la petición falla deberia adicionar al array el status y msg FAIL', () => {
+    const peticionAxios = [
+      {
+        text: 'Link roto',
+        href: 'https://www.youtube.com/01RHn23Bn_0',
+        file: 'ejemplo.md'
+      }
+    ]
 
-  //   const peticionAxios = [
-  //     {
-  //       text: 'Link roto',
-  //       href: 'https://www.youtube.com/01RHn23Bn_0',
-  //       file: 'ejemplo.md'
-  //     }
-  //   ]
-
-  //   const res = [
-  //     {
-  //       file: 'ejemplo.md',
-  //       href: 'https://www.youtube.com/01RHn23Bn_0',
-  //       status: 404,
-  //       msg: 'FAIL', // 'OK'??
-  //       text: 'Link roto',
-  //     },
-  //   ]
-  //   // revisar xq regresa msg 'OK'
-  //   axios.get.mockResolvedValue({ status: 404, msg: 'FAIL' }) //mockRejectedValue ??
-  //   return expect(validateLinks(peticionAxios)).resolves.toEqual(res)
-  //   // axios.get.mockRejectedValue({ status: 404, msg: 'FAIL' });
-  //   // return expect(validateLinks(peticionAxios)).rejects.toEqual(res)
-  // });
+    const res = [
+      {
+        file: 'ejemplo.md',
+        href: 'https://www.youtube.com/01RHn23Bn_0',
+        status: 404,
+        msg: 'FAIL',
+        text: 'Link roto'
+      }
+    ]
+    axios.get.mockRejectedValue({ response: { status: 404, msg: 'FAIL' } })
+    return expect(validateLinks(peticionAxios)).resolves.toEqual(res)
+  })
   // EJEMPLO
   // it("good response", () => {
   //   axios.get.mockResolvedValue({ status: 200, msg: 'OK'});

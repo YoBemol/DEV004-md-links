@@ -84,7 +84,7 @@ export const validateLinks = (array) => {
   // por cada href dentro del array hacer la peticion http axios, fetch, node:http
   // deacuerdo a la respuesta añadir 2 propiedades al objeto {href, file, text, status: 500, statusText: 'OK/Fail'}
   // console.log('array', array);
-  const requestAxios = array.map(element => {
+  const requestAxios = array.map(element => { // map modifica un arreglo
     // get
     return axios.get(element.href)
       .then(response => {
@@ -92,8 +92,17 @@ export const validateLinks = (array) => {
         element.msg = 'OK'
         return element
       })
-      .catch(error => {
-        element.status = error.message
+      .catch(function (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          element.status = error.response.status
+        } else {
+          // https://axios-http.com/docs/handling_errors
+          // Something happened in setting up the request that triggered an Error
+          element.status = error.message
+          // console.log('Error', error.message)
+        }
         element.msg = 'FAIL'
         return element
       })
