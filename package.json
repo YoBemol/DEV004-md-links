@@ -1,9 +1,13 @@
 {
-  "name": "@yobemol/md-links",
+  "name": "mdlinks-b",
   "type": "module",
   "version": "0.1.0",
   "description": "tool read and analyze files in Markdown format, to verify the links they contain and report some statistics",
-  "license": "MIT",
+  "keywords": [
+    "Node.js",
+    "Markdown"
+  ],
+  "license": "ISC",
   "author": "Belen Molina",
   "homepage": "https://github.com/YoBemol/DEV004-md-links",
   "repository": {

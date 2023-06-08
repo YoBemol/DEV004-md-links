@@ -83,6 +83,12 @@ de la función para leer archivos, `readFileSync`.
 
 ![diagrama](https://github.com/YoBemol/DEV004-md-links/blob/main/diagrama.png)
 
+### Instalación
+
+```sh
+npm i mdlinks-b
+```
+
 ### CLI (Command Line Interface - Interfaz de Línea de Comando)
 
 Se ejecuta de la siguiente
